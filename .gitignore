@@ -1,3 +1,6 @@
+# Project specific
+logfiles/
+
 # Editors
 .vscode/
 .idea/
