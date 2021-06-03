@@ -6,7 +6,6 @@ import wx
 import wx.grid
 import pandas as pd
 import numpy as np
-import socket
 import datetime
 import paho.mqtt.client as mqtt
 from os import replace
@@ -638,7 +637,7 @@ class LoggerGrid(wx.grid.Grid):
             dlg = wx.MessageDialog(self,
                     " Please select some columns to plot first. \n (Selected time columns are ignored.)",
                     "Unable to plot", wx.OK|wx.ICON_INFORMATION)
-            result = dlg.ShowModal()
+            dlg.ShowModal()
             dlg.Destroy()
             return
 
@@ -675,7 +674,7 @@ class LoggerGrid(wx.grid.Grid):
             dlg = wx.MessageDialog(self,
                     "Failed to plot. Check\nyour data for consistency",
                     "Unable to plot", wx.OK|wx.ICON_INFORMATION)
-            result = dlg.ShowModal()
+            dlg.ShowModal()
             dlg.Destroy()
 
     def OnLabelRightClick(self, evt):
@@ -747,7 +746,7 @@ class LoggerGrid(wx.grid.Grid):
 class TestFrame(wx.Frame):
     def __init__(self, parent):
         wx.Frame.__init__(self, parent, -1, "Logger table test", size=(800, 400))
-        grid = LoggerGrid(self, 'logfiles/ErYbLi_lognote_401nm.csv')
+        LoggerGrid(self, 'logfiles/ErYbLi_lognote_401nm.csv')
 
 if __name__ == '__main__':
     app = wx.App()

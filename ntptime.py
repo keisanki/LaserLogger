@@ -2,7 +2,6 @@
 
 import socket
 import struct
-import sys
 import time
 
 def RequestTimefromNtp(addr='pool.ntp.org'):

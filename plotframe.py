@@ -3,13 +3,10 @@
 from matplotlib.backends.backend_wxagg import (
     FigureCanvasWxAgg as FigureCanvas,
     NavigationToolbar2WxAgg as NavigationToolbar)
-from matplotlib.figure import Figure
 from matplotlib.ticker import AutoMinorLocator
 
 import wx
 import pandas as pd
-
-import numpy as np
 
 class PlotFrame(wx.Frame):
     def __init__(self, df, title, parent=None):
