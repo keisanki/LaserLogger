@@ -24,6 +24,16 @@ class LaserLogger(LaserLoggerFrame):
         # prepare main window
         LaserLoggerFrame.__init__(self, *args, **kwds)
 
+        # set up keyboard shortcuts
+        accel_tbl = wx.AcceleratorTable([
+                (wx.ACCEL_CTRL, ord('Q'), self.frame_main_toolbar.GetToolByPos(0).GetId()), # Ctrl-Q -> Quit
+                (wx.ACCEL_CTRL, ord('S'), self.frame_main_toolbar.GetToolByPos(1).GetId()), # Ctrl-S -> Save
+                (wx.ACCEL_CTRL, ord('N'), self.frame_main_toolbar.GetToolByPos(3).GetId()), # Ctrl-N -> New entry
+                (wx.ACCEL_CTRL, ord('A'), self.frame_main_toolbar.GetToolByPos(4).GetId()), # Ctrl-A -> Autofill
+                (wx.ACCEL_CTRL, ord('P'), self.frame_main_toolbar.GetToolByPos(6).GetId()), # Ctrl-P -> Plot
+            ])
+        self.SetAcceleratorTable(accel_tbl)
+
         # initial settings
         self.prefs_file = "laserlogger_settings.json"
         self.prefs = {
