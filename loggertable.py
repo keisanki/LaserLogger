@@ -55,13 +55,13 @@ class FloatRenderer(wx.grid.GridCellRenderer):
         f = '%'
         if w>-1:
             f+= "%d"%w
-            
+
         if p>-1:
             f+= ".%d"%p
 
         f += 'f'
         return f
-        
+
     def Draw(self, grid, attr, dc, rect, row, col, isSelected):
         """
         Implements rendering into grid entry.
@@ -70,7 +70,7 @@ class FloatRenderer(wx.grid.GridCellRenderer):
         if isSelected:
             dc.Brush = wx.Brush(grid.SelectionBackground)
         else:
-            dc.Brush = wx.Brush(attr.BackgroundColour)    
+            dc.Brush = wx.Brush(attr.BackgroundColour)
         dc.BackgroundMode = wx.SOLID
         dc.Pen = wx.TRANSPARENT_PEN
         dc.DrawRectangle(rect)
@@ -82,27 +82,27 @@ class FloatRenderer(wx.grid.GridCellRenderer):
             s = (self.format%float(value)).lstrip()
         else:
             s = '-'
-    
-        #draw text        
+
+        #draw text
         dc.BackgroundMode = wx.TRANSPARENT
         dc.Font = attr.Font
         dc.TextForeground = attr.TextColour
-        
+
         if not s in self.extents:
             # sizes not cached -> calculate and store
             self.extents[s] = dc.GetTextExtent(s)
         tw, th = self.extents[s]
-        
+
         if (attr.GetAlignment()[0] == wx.ALIGN_LEFT):
             xpos = rect.x + 2 + 5
         elif (attr.GetAlignment()[0] == wx.ALIGN_CENTRE):
             xpos = rect.x + round((rect.width-tw)/2)
         else:
             xpos = rect.x + rect.width - tw - 2 - 5
-        
+
         dc.DrawText(s, xpos, rect.y + 2)
         dc.DestroyClippingRegion()
-        
+
     def GetBestSize(self, grid, attr, dc, row, col):
         """Calculate size of entry"""
 
@@ -126,7 +126,7 @@ class FloatRenderer(wx.grid.GridCellRenderer):
         return FloatRenderer(self.width, self.precision)
 
 def changes_data(f):
-    """Decorator for methods that change data. 
+    """Decorator for methods that change data.
     Needed to see wheter file has been modified after last save. Changes
     attribute 'modified'.
 
@@ -346,7 +346,7 @@ class LoggerTable(wx.grid.GridTableBase):
     def _UpdateNumpyArray(self):
         """Helper function to rebuild our numpy representation of the data"""
 
-        self.np_columns = [] 
+        self.np_columns = []
         for label in self.column_labels:
             self.np_columns.append(self.data[label].to_numpy())
 
@@ -393,7 +393,7 @@ class LoggerTable(wx.grid.GridTableBase):
                 value = np.float64(value)
             except:
                 value = None
-        
+
         # update Pandas dataframe
         # (not necessary as the numpy array is still pointing to the original
         # dataframe and updating the numpy array below will also update the
@@ -522,7 +522,7 @@ class LoggerTable(wx.grid.GridTableBase):
         # maintain a list of 9 backup copies
         for idx in range(8, 0, -1):
             if isfile("{}.{}".format(self.filename, idx)):
-                replace("{}.{}".format(self.filename, idx), 
+                replace("{}.{}".format(self.filename, idx),
                         "{}.{}".format(self.filename, (idx+1)))
         replace(self.filename, "{}.{}".format(self.filename, 1))
 
