@@ -180,6 +180,13 @@ class LoggerTable(wx.grid.GridTableBase):
         # (this way in the saved CSV file we won't have fractional numbers)
         self.data['Lock\nIsotope'] = self.data['Lock\nIsotope'].astype('int', errors='ignore')
 
+        # enforce proper data type for date/time columns (especially needed
+        # when table is still empty, as in this case the type is just 'object')
+        if 'Time\nStart' in self.data:
+            self.data = self.data.astype({'Time\nStart': 'datetime64[ns]'})
+        if 'Time\nStop' in self.data:
+            self.data = self.data.astype({'Time\nStop': 'datetime64[ns]'})
+
         # keep a reference to the calling wx.Grid
         self.parent = parent
 
