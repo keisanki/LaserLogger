@@ -10,6 +10,7 @@ import datetime
 import paho.mqtt.client as mqtt
 from os import replace
 from os.path import isfile
+from time import sleep
 import functools
 import toptica
 import plotframe
@@ -573,6 +574,18 @@ class LoggerTable(wx.grid.GridTableBase):
                     dlc = toptica.DLCpro(ip=autoinfo['ip'], port=autoinfo['port'])
                 value = float(dlc.getParam(autoinfo['uri']))
 
+                # special treatment of "value-act" requests
+                # These are readouts from the ADC channels and most probably
+                # used for photodiode readings or such that are inherently
+                # quite noisy. So for these cases we will actually do an
+                # averaging over 10 readings (one reading already done above)
+                # spaced out by a 50 ms to obtain a more representative value.
+                if "value-act" in autoinfo['uri']:
+                    for run in range(9):
+                        sleep(0.05)
+                        value += float(dlc.getParam(autoinfo['uri']))
+                    value /= 10
+
                 # heuristic rounding of values
                 if "voltage" in autoinfo['uri']:
                     value = round(value, 3)
@@ -582,6 +595,9 @@ class LoggerTable(wx.grid.GridTableBase):
                     value = round(value, 3)
                 if "power" in autoinfo['uri']:
                     value = round(value, 2)
+                # conversion to mV and rounding for PD readings
+                if "value-act" in autoinfo['uri'] and "(mV)" in header:
+                    value *= round(1000*value)
 
             # put value into proper column (only if this cell is empty)
             column = self.data.columns.get_loc(header)
