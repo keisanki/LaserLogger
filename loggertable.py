@@ -597,7 +597,7 @@ class LoggerTable(wx.grid.GridTableBase):
                     value = round(value, 2)
                 # conversion to mV and rounding for PD readings
                 if "value-act" in autoinfo['uri'] and "(mV)" in header:
-                    value *= round(1000*value)
+                    value = round(1000*value)
 
             # put value into proper column (only if this cell is empty)
             column = self.data.columns.get_loc(header)
