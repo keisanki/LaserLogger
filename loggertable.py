@@ -179,7 +179,8 @@ class LoggerTable(wx.grid.GridTableBase):
         # at least try to convert isotope column into integers
         # conversion will fail if there are empty columns, in that case float64 will be kept
         # (this way in the saved CSV file we won't have fractional numbers)
-        self.data['Lock\nIsotope'] = self.data['Lock\nIsotope'].astype('int', errors='ignore')
+        if 'Lock\nIsotope' in self.data:
+            self.data['Lock\nIsotope'] = self.data['Lock\nIsotope'].astype('int', errors='ignore')
 
         # enforce proper data type for date/time columns (especially needed
         # when table is still empty, as in this case the type is just 'object')
