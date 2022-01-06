@@ -225,6 +225,9 @@ class LoggerTable(wx.grid.GridTableBase):
             elif "(mA)" in label:
                 renderer = FloatRenderer(precision=1)
                 editor = wx.grid.GridCellFloatEditor(precision=1)
+            elif "(A)" in label:
+                renderer = FloatRenderer(precision=2)
+                editor = wx.grid.GridCellFloatEditor(precision=2)
             elif "(mV)" in label:
                 renderer = FloatRenderer(precision=0)
                 editor = wx.grid.GridCellFloatEditor(precision=1)
@@ -234,6 +237,9 @@ class LoggerTable(wx.grid.GridTableBase):
             elif "(mW)" in label:
                 renderer = FloatRenderer(precision=1)
                 editor = wx.grid.GridCellFloatEditor(precision=1)
+            elif "(nm)" in label:
+                renderer = FloatRenderer(precision=3)
+                editor = wx.grid.GridCellFloatEditor(precision=3)
             elif "Isotope" in label:
                 renderer = FloatRenderer(precision=0)
                 editor = wx.grid.GridCellFloatEditor(precision=0)
