@@ -160,7 +160,10 @@ class LoggerTable(wx.grid.GridTableBase):
             # read special information on automatic data import
             self.autoinfoline = pd.read_csv(filename, nrows=1)
             # import main part of log file
-            self.data = pd.read_csv(filename, parse_dates=['Time\nStart', 'Time\nStop'], skiprows=[1])
+            self.data = pd.read_csv(filename,
+                                    parse_dates=['Time\nStart', 'Time\nStop'],
+                                    skiprows=[1],
+                                    dtype={'Comment': 'object'})
         except Exception as e:
             dlg = wx.MessageDialog(parent,
                                     "Could not open or read '{}' for import:\n{}\n\n"
