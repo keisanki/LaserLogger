@@ -75,6 +75,18 @@ class LaserLogger(LaserLoggerFrame):
         # keep only successfully created logbooks
         self.logbooks = [logbook for logbook in self.logbooks if logbook['grid'] is not None]
 
+        # prepare list of images that can be used for the notebook tabs
+        il = wx.ImageList(16, 16)
+        il.Add(wx.Bitmap('icons/operating.png', wx.BITMAP_TYPE_PNG))
+        self.notebook.AssignImageList(il)
+
+        # mark any lasers that are currently in use (i.e. have no stop time)
+        for pos in range(len(self.logbooks)):
+            nb = self.logbooks[pos]
+            if nb['grid'].GetNumberRows() > 0 and not nb['grid'].GetCellValue(0, 1):
+                # no end time set yet -> laser is currently in use
+                self.notebook.SetPageImage(pos, 0)
+
         self.Layout()
 
     ### Status bar
@@ -166,6 +178,9 @@ class LaserLogger(LaserLoggerFrame):
         # reset all MQTT data so that only fresh data will be used for autofill
         nb['grid'].GetTable().MQTTResetData()
 
+        # add an image to the notebook tab to mark that the laser is currently in use
+        self.notebook.SetPageImage(self.notebook.GetSelection(), 0)
+
         self.SetTimedStatusText("Added new entry to '{}' logbook".format(nb['name']), 3)
 
     def OnAutofill(self, e):
@@ -197,6 +212,9 @@ class LaserLogger(LaserLoggerFrame):
 
         # let the notebook handle the rest of the values
         nb['grid'].GetTable().Autofill()
+
+        # remove the notebook image tab to mark that the laser is not in use any more
+        self.notebook.SetPageImage(self.notebook.GetSelection(), -1)
 
         self.SetTimedStatusText("Auto completed entries of '{}' logbook".format(nb['name']), 3)
 
