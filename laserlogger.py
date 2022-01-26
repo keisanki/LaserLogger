@@ -77,6 +77,7 @@ class LaserLogger(LaserLoggerFrame):
 
         # prepare list of images that can be used for the notebook tabs
         il = wx.ImageList(16, 16)
+        il.Add(wx.Bitmap('icons/idle.png', wx.BITMAP_TYPE_PNG))
         il.Add(wx.Bitmap('icons/operating.png', wx.BITMAP_TYPE_PNG))
         self.notebook.AssignImageList(il)
 
@@ -85,6 +86,9 @@ class LaserLogger(LaserLoggerFrame):
             nb = self.logbooks[pos]
             if nb['grid'].GetNumberRows() > 0 and not nb['grid'].GetCellValue(0, 1):
                 # no end time set yet -> laser is currently in use
+                self.notebook.SetPageImage(pos, 1)
+            else:
+                # mark laser as idle
                 self.notebook.SetPageImage(pos, 0)
 
         self.Layout()
@@ -179,7 +183,7 @@ class LaserLogger(LaserLoggerFrame):
         nb['grid'].GetTable().MQTTResetData()
 
         # add an image to the notebook tab to mark that the laser is currently in use
-        self.notebook.SetPageImage(self.notebook.GetSelection(), 0)
+        self.notebook.SetPageImage(self.notebook.GetSelection(), 1)
 
         self.SetTimedStatusText("Added new entry to '{}' logbook".format(nb['name']), 3)
 
@@ -213,8 +217,8 @@ class LaserLogger(LaserLoggerFrame):
         # let the notebook handle the rest of the values
         nb['grid'].GetTable().Autofill()
 
-        # remove the notebook image tab to mark that the laser is not in use any more
-        self.notebook.SetPageImage(self.notebook.GetSelection(), -1)
+        # change the notebook image tab to mark that the laser is not in use any more
+        self.notebook.SetPageImage(self.notebook.GetSelection(), 0)
 
         self.SetTimedStatusText("Auto completed entries of '{}' logbook".format(nb['name']), 3)
 
