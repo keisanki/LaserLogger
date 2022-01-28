@@ -212,10 +212,10 @@ class LoggerTable(wx.grid.GridTableBase):
         for label in self.column_labels:
             if "Time" in label:
                 renderer = wx.grid.GridCellDateTimeRenderer(outformat="%Y/%m/%d %H:%M", informat="%Y/%m/%d %H:%M")
-                editor = wx.grid.GridCellAutoWrapStringEditor()
+                editor = wx.grid.GridCellTextEditor()
             elif "Comment" in label:
                 renderer = wx.grid.GridCellStringRenderer()
-                editor = wx.grid.GridCellAutoWrapStringEditor()
+                editor = wx.grid.GridCellTextEditor()
             elif "(THz)" in label:
                 renderer = FloatRenderer(precision=7)
                 editor = wx.grid.GridCellFloatEditor(precision=7)
