@@ -30,7 +30,8 @@ class LaserLogger(LaserLoggerFrame):
                 (wx.ACCEL_CTRL, ord('S'), self.frame_main_toolbar.GetToolByPos(1).GetId()), # Ctrl-S -> Save
                 (wx.ACCEL_CTRL, ord('N'), self.frame_main_toolbar.GetToolByPos(3).GetId()), # Ctrl-N -> New entry
                 (wx.ACCEL_CTRL, ord('A'), self.frame_main_toolbar.GetToolByPos(4).GetId()), # Ctrl-A -> Autofill
-                (wx.ACCEL_CTRL, ord('P'), self.frame_main_toolbar.GetToolByPos(6).GetId()), # Ctrl-P -> Plot
+                (wx.ACCEL_CTRL, ord('D'), self.frame_main_toolbar.GetToolByPos(5).GetId()), # Ctrl-D -> Duplicate cell
+                (wx.ACCEL_CTRL, ord('P'), self.frame_main_toolbar.GetToolByPos(7).GetId()), # Ctrl-P -> Plot
             ])
         self.SetAcceleratorTable(accel_tbl)
 
@@ -221,6 +222,31 @@ class LaserLogger(LaserLoggerFrame):
         self.notebook.SetPageImage(self.notebook.GetSelection(), 0)
 
         self.SetTimedStatusText("Auto completed entries of '{}' logbook".format(nb['name']), 3)
+
+    def OnDuplicateCell(self, e):
+        """Duplicate value of cell from row below into current row"""
+        nb = self.GetNotebook()
+
+        (row, col) = (nb['grid'].GetGridCursorRow(), nb['grid'].GetGridCursorCol())
+        if row == -1 or col == -1:
+            dlg = wx.MessageDialog(self,
+                                    "Cannot duplicate a value without cell selection.\n\n"
+                                    "Please put the cursor on the duplicate target cell first.",
+                                    "No cell selected", wx.OK|wx.ICON_ERROR)
+            dlg.ShowModal()
+            dlg.Destroy()
+            return
+
+        if row+1 >= nb['grid'].GetNumberRows()-1:
+            dlg = wx.MessageDialog(self,
+                                    "Cannot duplicate a value from beyond the last row.",
+                                    "No next row", wx.OK|wx.ICON_ERROR)
+            dlg.ShowModal()
+            dlg.Destroy()
+            return
+
+        value = nb['grid'].GetCellValue(row+1, col)
+        nb['grid'].SetCellValue(row, col, value)
 
     def OnPlot(self, e):
         """Open a new window with a plot of the selected columns (and rows)"""
