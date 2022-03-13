@@ -10,6 +10,68 @@ hand.
 
 LaserLogger is built using Python and wxWidgets.
 
+## Usage
+
+A typical main window of LaserLogger might look as shown in the below
+screenshot.
+
+![LaserLogger main window](images/LaserLogger_main.png)
+
+The application is organized into three areas: a toolbar at the top, the main
+logbook area in the center and a statusbar at the bottom. We will now cover
+each area in more detail
+
+### The toolbar area
+
+Most of the possible operations within LaserLogger can be selected either from
+the toolbar or via a keyboard shortcut.
+
+- Quit (Ctrl + p): Quit the program, a confirmation dialog is displayed in
+  case of unsaved changes.
+
+- Save (Ctrl + s): Save the state of the currently displayed logbook. The
+  previous logbook file is maintained by creating a copy of the file first.
+
+- New entry (Ctrl + n): Start a new logbook entry line and automatically fill
+  in the start time with the current date and time.
+
+- Autofill (Ctrl + a): Finish the topmost logbook entry line by filling in the
+  stop time and all the parameters where information on automatic value
+  retrieval is available. (See further [below](#logboo-csv-file-structure) for
+  information on how to set this up.)
+
+- Duplicate (Ctrl + d): Copy the value from the cell directly below the
+  currently selected cell and paste it into the current cell.
+
+- Plot (Ctrl + p): Plot one or more selected columns in total or only for the
+  selected subset of entries as function of the start time.
+  ![LaserLogger plot window](images/LaserLogger_plot.png)
+
+### The logbook area
+
+This main area of LaserLogger displays each configured logbook as its own tab.
+Click a tab to display and activate the corresponding notebook. An asterisk
+mark behind the logbook name indicates unsaved changes. The colored point is
+green when the topmost line of the logbook has both start and stop times, that
+is the laser is considered to be not in use. If, however, only a start time is
+present then the laser is considered to be in current use and the dot turns
+red.
+
+The content of all cells can be manually entered and changed by the user. Most
+cells will be of numeric type, though, so only numeric input is possible. Also
+the display format is determined by the underlying display model.
+
+To completely delete a row, left-click the number of the row on the very left
+and select 'Delete row' from the popup menu.
+
+### The statusbar
+
+This is just your typical statusbar and mostly works as expected. It mostly
+displays confirmational messages on the most recent activities, such as saving
+a logbook. However, it also shows some general usage statistics (that is the
+total operation time) for the currently displayed logbook when switching to
+the corresponding notebook tab.
+
 ## Configuration
 
 LaserLogger is configured via a JSON file `laserlogger_settings.json` that
@@ -34,7 +96,7 @@ information might look as follows:
         }
     ],
     "mqtt": {
-	    "broker": "192.168.1.11"
+            "broker": "192.168.1.11"
     }
 }
 ```
