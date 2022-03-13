@@ -37,7 +37,7 @@ the toolbar or via a keyboard shortcut.
 
 - Autofill (Ctrl + a): Finish the topmost logbook entry line by filling in the
   stop time and all the parameters where information on automatic value
-  retrieval is available. (See further [below](#logboo-csv-file-structure) for
+  retrieval is available. (See further [below](#logbook-csv-file-structure) for
   information on how to set this up.)
 
 - Duplicate (Ctrl + d): Copy the value from the cell directly below the
