@@ -226,8 +226,8 @@ class LoggerTable(wx.grid.GridTableBase):
                 renderer = FloatRenderer(precision=3)
                 editor = wx.grid.GridCellFloatEditor(precision=3)
             elif "(mA)" in label:
-                renderer = FloatRenderer(precision=1)
-                editor = wx.grid.GridCellFloatEditor(precision=1)
+                renderer = FloatRenderer(precision=2)
+                editor = wx.grid.GridCellFloatEditor(precision=2)
             elif "(A)" in label:
                 renderer = FloatRenderer(precision=2)
                 editor = wx.grid.GridCellFloatEditor(precision=2)
