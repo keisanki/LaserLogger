@@ -225,6 +225,9 @@ class LoggerTable(wx.grid.GridTableBase):
             elif "Temp" in label:
                 renderer = FloatRenderer(precision=3)
                 editor = wx.grid.GridCellFloatEditor(precision=3)
+            elif "(kΩ)" in label:
+                renderer = FloatRenderer(precision=3)
+                editor = wx.grid.GridCellFloatEditor(precision=3)
             elif "(mA)" in label:
                 renderer = FloatRenderer(precision=2)
                 editor = wx.grid.GridCellFloatEditor(precision=2)
